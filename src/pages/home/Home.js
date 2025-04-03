@@ -257,7 +257,7 @@ function Home(props) {
                                 }
                             }}
                         >
-                            Ignite Idea
+                            Submit Idea
                         </Button>
                     </DialogActions>
                 </Dialog>
