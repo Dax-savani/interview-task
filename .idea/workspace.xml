@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9aa611f-ef40-4cdf-91d5-42a966fbf63c" name="Changes" comment="create some ui">
+    <list default="true" id="a9aa611f-ef40-4cdf-91d5-42a966fbf63c" name="Changes" comment="set routes and make sign-in and sign-up page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/axiosInstance/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/axiosInstance/axiosInstance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/Admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/Admin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +23,12 @@
     &quot;assignee&quot;: &quot;heettimbadiya&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Dax-savani/interview-task.git&quot;,
-    &quot;accountId&quot;: &quot;ff380333-b9d1-4dcf-9776-25be1c19c97f&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Dax-savani/interview-task.git",
+    "accountId": "a7de846b-8fa6-4ab5-a318-aa091bd95f6c"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -81,7 +79,8 @@
       <workItem from="1743589369836" duration="386000" />
       <workItem from="1743589840409" duration="2701000" />
       <workItem from="1743597590116" duration="3294000" />
-      <workItem from="1743646949028" duration="13230000" />
+      <workItem from="1743646949028" duration="10635000" />
+      <workItem from="1743658312558" duration="1572000" />
     </task>
     <task id="LOCAL-00001" summary="this is initial commit">
       <option name="closed" value="true" />
@@ -99,23 +98,7 @@
       <option name="project" value="LOCAL" />
       <updated>1743600904401</updated>
     </task>
-    <task id="LOCAL-00003" summary="create some ui">
-      <option name="closed" value="true" />
-      <created>1743657659214</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1743657659214</updated>
-    </task>
-    <task id="LOCAL-00004" summary="create some ui">
-      <option name="closed" value="true" />
-      <created>1743658214625</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1743658214625</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,7 +107,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="this is initial commit" />
     <MESSAGE value="set routes and make sign-in and sign-up page" />
-    <MESSAGE value="create some ui" />
-    <option name="LAST_COMMIT_MESSAGE" value="create some ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="set routes and make sign-in and sign-up page" />
   </component>
 </project>

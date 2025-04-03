@@ -1,40 +1,47 @@
 import React, {useEffect, useState} from 'react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import {
     Avatar, Box, Button, Card, CardContent, Container,
     Dialog, DialogActions, DialogContent, DialogTitle,
     IconButton, Slide, TextField, Typography, useTheme
 } from "@mui/material";
+import {UserContext} from "../../index";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 import toast from "react-hot-toast";
 
 function Home(props) {
     const theme = useTheme();
     const localStorData = JSON.parse(localStorage.getItem("user"));
-    console.log(localStorData)
     const [ideas, setIdeas] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const [title, setTitle] = useState('')
+    const [page, setPage] = useState(1);
+    const [limit] = useState(10);
+    const [sortBy, setSortBy] = useState("popular");
+    const [date, setDate] = useState("");
     const [description, setDescription] = useState('')
 
     const fetchIdeas = async () => {
         try {
-            const res = await axiosInstance.get("/ideas");
-            setIdeas(res?.data?.ideas)
+            const res = await axiosInstance.get("/ideas", {
+                params: {page, limit, sortBy, date}
+            });
+            setIdeas(res?.data?.ideas);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
-    }
+    };
 
     useEffect(() => {
         fetchIdeas()
-    }, []);
+    }, [page, sortBy, date]);
 
     const handleVote = async (ideaId, voteType) => {
         try {
-            const res = await axiosInstance.put(`/ideas/${ideaId}/vote`, { voteType });
-            if(res.status == 200){
+            const res = await axiosInstance.put(`/ideas/${ideaId}/vote`, {voteType});
+            if (res.status == 200) {
                 fetchIdeas()
             }
         } catch (e) {
@@ -44,7 +51,7 @@ function Home(props) {
 
     const handleSubmitIdea = async () => {
         try {
-            const res = await axiosInstance.post('/ideas', { title, description });
+            const res = await axiosInstance.post('/ideas', {title, description});
 
             if (res.status === 201) {
                 toast.success('Idea added successfully!');
@@ -62,6 +69,42 @@ function Home(props) {
 
     return (
         <Container maxWidth="md">
+            <Box
+                display="flex"
+                flexWrap="wrap"
+                gap={2}
+                my={3}
+                alignItems="center"
+            >
+                {/* Sort By Dropdown */}
+                <TextField
+                    select
+                    label="Sort By"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    SelectProps={{ native: true }}
+                    variant="outlined"
+                    size="small"
+                    sx={{ minWidth: 180 }}
+                >
+                    <option value="popular">Most Popular</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                </TextField>
+
+                {/* Date Filter */}
+                <TextField
+                    type="date"
+                    label="Filter by Date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
+                    variant="outlined"
+                    size="small"
+                    sx={{ minWidth: 180 }}
+                />
+            </Box>
+
             <Box mt={4} mb={4}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
                     <Typography variant="h4" component="h1" sx={{
@@ -95,50 +138,50 @@ function Home(props) {
                 >
 
 
-                    <DialogContent sx={{ pt: 4 }}>
-                                <TextField
-                                    fullWidth
-                                    label="Idea Title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    margin="normal"
-                                    variant="outlined"
-                                    InputProps={{
-                                        sx: {
-                                            borderRadius: 2,
-                                            '&:hover fieldset': { borderColor: theme.palette.primary.main }
-                                        }
-                                    }}
-                                    InputLabelProps={{
-                                        sx: {
-                                            fontWeight: 500,
-                                            color: theme.palette.text.secondary
-                                        }
-                                    }}
-                                />
+                    <DialogContent sx={{pt: 4}}>
+                        <TextField
+                            fullWidth
+                            label="Idea Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            margin="normal"
+                            variant="outlined"
+                            InputProps={{
+                                sx: {
+                                    borderRadius: 2,
+                                    '&:hover fieldset': {borderColor: theme.palette.primary.main}
+                                }
+                            }}
+                            InputLabelProps={{
+                                sx: {
+                                    fontWeight: 500,
+                                    color: theme.palette.text.secondary
+                                }
+                            }}
+                        />
 
-                                <TextField
-                                    fullWidth
-                                    label="Describe Your Idea"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    margin="normal"
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    InputProps={{
-                                        sx: {
-                                            borderRadius: 2,
-                                            '&:hover fieldset': { borderColor: theme.palette.primary.main }
-                                        }
-                                    }}
-                                    InputLabelProps={{
-                                        sx: {
-                                            fontWeight: 500,
-                                            color: theme.palette.text.secondary
-                                        }
-                                    }}
-                                />
+                        <TextField
+                            fullWidth
+                            label="Describe Your Idea"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            margin="normal"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            InputProps={{
+                                sx: {
+                                    borderRadius: 2,
+                                    '&:hover fieldset': {borderColor: theme.palette.primary.main}
+                                }
+                            }}
+                            InputLabelProps={{
+                                sx: {
+                                    fontWeight: 500,
+                                    color: theme.palette.text.secondary
+                                }
+                            }}
+                        />
                     </DialogContent>
 
                     <DialogActions sx={{
@@ -226,7 +269,7 @@ function Home(props) {
                                     onClick={() => handleVote(idea?._id, 'up')}
                                     sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? theme.palette.success.main : 'gray'}}
                                 >
-                                    <ThumbUpIcon />
+                                    <ThumbUpIcon/>
                                 </IconButton>
                                 <Typography variant="body2" sx={{mx: 1}}>
                                     {idea.upvotes || 0}
@@ -236,7 +279,7 @@ function Home(props) {
                                     onClick={() => handleVote(idea?._id, 'down')}
                                     sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? theme.palette.error.main : 'gray', ml: 2}}
                                 >
-                                    <ThumbDownIcon />
+                                    <ThumbDownIcon/>
                                 </IconButton>
                                 <Typography variant="body2" sx={{mx: 1}}>
                                     {idea.downvotes || 0}
@@ -246,6 +289,46 @@ function Home(props) {
                     </Card>
                 ))}
             </Box>
+            <Box display="flex" justifyContent="center" alignItems="center" mt={3} gap={2}>
+                <Button
+                    variant="outlined"
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                    sx={{
+                        px: 3,
+                        py: 1,
+                        fontWeight: "bold",
+                        borderRadius: 2,
+                        "&:disabled": {
+                            opacity: 0.5,
+                        },
+                    }}
+                >
+                    Previous
+                </Button>
+
+                <Typography variant="body1" fontWeight="bold">
+                    Page {page}
+                </Typography>
+
+                <Button
+                    variant="outlined"
+                    onClick={() => setPage(page + 1)}
+                    disabled={ideas.length < limit}
+                    sx={{
+                        px: 3,
+                        py: 1,
+                        fontWeight: "bold",
+                        borderRadius: 2,
+                        "&:disabled": {
+                            opacity: 0.5,
+                        },
+                    }}
+                >
+                    Next
+                </Button>
+            </Box>
+
         </Container>
     );
 }
