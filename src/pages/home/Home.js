@@ -267,7 +267,7 @@ function Home(props) {
 
                                 <IconButton
                                     onClick={() => handleVote(idea?._id, 'up')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? theme.palette.success.main : 'gray'}}
+                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? 'green' : 'gray'}}
                                 >
                                     <ThumbUpIcon/>
                                 </IconButton>
@@ -277,7 +277,7 @@ function Home(props) {
 
                                 <IconButton
                                     onClick={() => handleVote(idea?._id, 'down')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? theme.palette.error.main : 'gray', ml: 2}}
+                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? 'red' : 'gray', ml: 2}}
                                 >
                                     <ThumbDownIcon/>
                                 </IconButton>
