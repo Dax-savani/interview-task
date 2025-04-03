@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9aa611f-ef40-4cdf-91d5-42a966fbf63c" name="Changes" comment="set routes and make sign-in and sign-up page">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/axiosInstance/axiosInstance.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/axiosInstance/meAxiosInstance.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/AdminPrivateRoute.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/PrivateRoute.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/home/Home.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/sign-in/SignIn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/sign-up/SIgnUp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,12 +23,12 @@
     &quot;assignee&quot;: &quot;heettimbadiya&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Dax-savani/interview-task.git&quot;,
-    &quot;accountId&quot;: &quot;ff380333-b9d1-4dcf-9776-25be1c19c97f&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Dax-savani/interview-task.git",
+    "accountId": "a7de846b-8fa6-4ab5-a318-aa091bd95f6c"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -92,6 +80,7 @@
       <workItem from="1743589840409" duration="2701000" />
       <workItem from="1743597590116" duration="3294000" />
       <workItem from="1743646949028" duration="10635000" />
+      <workItem from="1743658312558" duration="1572000" />
     </task>
     <task id="LOCAL-00001" summary="this is initial commit">
       <option name="closed" value="true" />
