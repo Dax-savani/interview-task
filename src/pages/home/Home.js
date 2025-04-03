@@ -1,19 +1,18 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import {
     Avatar, Box, Button, Card, CardContent, Container,
     Dialog, DialogActions, DialogContent, DialogTitle,
     IconButton, Slide, TextField, Typography, useTheme
 } from "@mui/material";
-import {UserContext} from "../../index";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 import toast from "react-hot-toast";
 
 function Home(props) {
     const theme = useTheme();
-    const user = useContext(UserContext)
+    const localStorData = JSON.parse(localStorage.getItem("user"));
+    console.log(localStorData)
     const [ideas, setIdeas] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const [title, setTitle] = useState('')
@@ -225,7 +224,7 @@ function Home(props) {
 
                                 <IconButton
                                     onClick={() => handleVote(idea?._id, 'up')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === user?._id && vote.voteType === 'up') ? theme.palette.success.main : 'gray'}}
+                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? theme.palette.success.main : 'gray'}}
                                 >
                                     <ThumbUpIcon />
                                 </IconButton>
@@ -235,7 +234,7 @@ function Home(props) {
 
                                 <IconButton
                                     onClick={() => handleVote(idea?._id, 'down')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === user?._id && vote.voteType === 'down') ? theme.palette.error.main : 'gray', ml: 2}}
+                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? theme.palette.error.main : 'gray', ml: 2}}
                                 >
                                     <ThumbDownIcon />
                                 </IconButton>
