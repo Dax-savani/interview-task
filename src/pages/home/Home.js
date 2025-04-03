@@ -76,7 +76,7 @@ function Home(props) {
         }
     };
 
-
+    console.log(localStorData,"jjjjjjjjjjjjjjjj")
     return (
         <Container maxWidth="md">
             <Box
@@ -306,7 +306,7 @@ function Home(props) {
 
                                         <IconButton
                                             onClick={() => handleVote(idea?._id, 'up')}
-                                            sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? 'green' : 'gray'}}
+                                            sx={{color: idea?.votes?.some(vote => vote.user_id?._id === localStorData?._id && vote.voteType === 'up') ? 'green' : 'gray'}}
                                         >
                                             <ThumbUpIcon/>
                                         </IconButton>
@@ -317,7 +317,7 @@ function Home(props) {
                                         <IconButton
                                             onClick={() => handleVote(idea?._id, 'down')}
                                             sx={{
-                                                color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? 'red' : 'gray',
+                                                color: idea?.votes?.some(vote => vote.user_id?._id === localStorData?._id && vote.voteType === 'down') ? 'red' : 'gray',
                                                 ml: 2
                                             }}
                                         >
