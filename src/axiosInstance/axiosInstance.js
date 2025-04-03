@@ -6,6 +6,8 @@ const axiosInstance = axios.create({
         "Content-Type": "application/json",
     },
 });
+
+
 const refreshAccessToken = async () => {
     try {
         const user = JSON.parse(localStorage.getItem("user"));
@@ -30,26 +32,43 @@ const refreshAccessToken = async () => {
     }
 };
 
+
 axiosInstance.interceptors.request.use(
     async (config) => {
-        let user = JSON.parse(localStorage.getItem("user"));
-        let accessToken = user?.token?.accessToken;
+        const user = JSON.parse(localStorage.getItem("user"));
+        const accessToken = user?.token?.accessToken;
 
-        config.headers.Authorization = `Bearer ${accessToken}`;
-
-        const tokenExpiry = user?.token?.expiresAt;
-        const now = Date.now();
-
-        if (tokenExpiry && now >= tokenExpiry) {
-            accessToken = await refreshAccessToken();
-            if (accessToken) {
-                config.headers.Authorization = `Bearer ${accessToken}`;
-            }
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
         return config;
     },
     (error) => Promise.reject(error)
+);
+
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (
+            error.response &&
+            error.response.status === 401 &&
+            error.response.data?.message === "Invalid token" &&
+            !originalRequest._retry
+        ) {
+            originalRequest._retry = true;
+            const newAccessToken = await refreshAccessToken();
+            if (newAccessToken) {
+                axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return axiosInstance(originalRequest);
+            }
+        }
+
+        return Promise.reject(error);
+    }
 );
 
 export default axiosInstance;
