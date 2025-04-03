@@ -16,9 +16,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CommentIcon from '@mui/icons-material/Comment';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 function Admin(props) {
     const theme = useTheme();
+    const navigate = useNavigate();
     const [ideas, setIdeas] = useState([]);
 
     const fetchIdeas = async () => {
@@ -48,6 +50,14 @@ function Admin(props) {
 
     return (
         <Container maxWidth="xl">
+            <Button
+                variant="contained"
+                color="primary"
+                sx={{mt:3}}
+                onClick={() => navigate('/')}
+            >
+                Back
+            </Button>
             <Box mt={4} mb={4}>
                 <Typography variant="h4" gutterBottom sx={{
                     fontWeight: 700,

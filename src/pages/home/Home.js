@@ -10,6 +10,7 @@ import {
 import {UserContext} from "../../index";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 function Home(props) {
     const theme = useTheme();
@@ -19,9 +20,11 @@ function Home(props) {
     const [title, setTitle] = useState('')
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
+    const navigate = useNavigate();
     const [sortBy, setSortBy] = useState("popular");
     const [date, setDate] = useState("");
     const [description, setDescription] = useState('')
+    const [loading, setLoading] = useState(false);
 
     const fetchIdeas = async () => {
         try {
@@ -31,6 +34,8 @@ function Home(props) {
             setIdeas(res?.data?.ideas);
         } catch (e) {
             console.log(e);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -47,6 +52,11 @@ function Home(props) {
         } catch (e) {
             console.log(e);
         }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        navigate("/login");
     };
 
     const handleSubmitIdea = async () => {
@@ -74,35 +84,58 @@ function Home(props) {
                 flexWrap="wrap"
                 gap={2}
                 my={3}
+                justifyContent="space-between"
                 alignItems="center"
             >
                 {/* Sort By Dropdown */}
-                <TextField
-                    select
-                    label="Sort By"
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    SelectProps={{ native: true }}
-                    variant="outlined"
-                    size="small"
-                    sx={{ minWidth: 180 }}
-                >
-                    <option value="popular">Most Popular</option>
-                    <option value="latest">Latest</option>
-                    <option value="oldest">Oldest</option>
-                </TextField>
+                <Box>
 
-                {/* Date Filter */}
-                <TextField
-                    type="date"
-                    label="Filter by Date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    InputLabelProps={{ shrink: true }}
-                    variant="outlined"
-                    size="small"
-                    sx={{ minWidth: 180 }}
-                />
+                    <TextField
+                        select
+                        label="Sort By"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        SelectProps={{native: true}}
+                        variant="outlined"
+                        size="small"
+                        sx={{minWidth: 180}}
+                    >
+                        <option value="popular">Most Popular</option>
+                        <option value="latest">Latest</option>
+                        <option value="oldest">Oldest</option>
+                    </TextField>
+
+                    {/* Date Filter */}
+                    <TextField
+                        type="date"
+                        label="Filter by Date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        size="small"
+                        sx={{minWidth: 180, ml: 4}}
+                    />
+                </Box>
+
+                <Box>
+                    {localStorData.role === 'ADMIN' &&
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate("/admin")}
+                        >
+                            Admin
+                        </Button>}
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleLogout}
+                        sx={{ml: 4}}
+                    >
+                        Log Out
+                    </Button>
+                </Box>
             </Box>
 
             <Box mt={4} mb={4}>
@@ -224,70 +257,81 @@ function Home(props) {
                                 }
                             }}
                         >
-                            Ignite Idea
+                            Submit Idea
                         </Button>
                     </DialogActions>
                 </Dialog>
 
-                {ideas?.map((idea) => (
-                    <Card key={idea?._id} sx={{
-                        mb: 3,
-                        borderRadius: 4,
-                        boxShadow: 3,
-                        transition: 'transform 0.2s, box-shadow 0.2s',
-                        '&:hover': {
-                            transform: 'translateY(-2px)',
-                            boxShadow: 6
-                        }
-                    }}>
-                        <CardContent>
-                            <Box display="flex" alignItems="center" mb={2}>
-                                <Avatar sx={{bgcolor: theme.palette.primary.main, mr: 2}}>
-                                    {idea.author?.charAt(0) || 'U'}
-                                </Avatar>
-                                <Box>
-                                    <Typography variant="subtitle1" fontWeight="500">
-                                        {idea.author || 'Anonymous'}
+                {loading ? (
+                    <Typography textAlign="center" my={4}>Loading...</Typography>
+                ) : ideas.length === 0 ? (
+                    <Typography textAlign="center" my={4}>No data found</Typography>
+                ) : (
+                    <>
+                        {ideas?.map((idea) => (
+                            <Card key={idea?._id} sx={{
+                                mb: 3,
+                                borderRadius: 4,
+                                boxShadow: 3,
+                                transition: 'transform 0.2s, box-shadow 0.2s',
+                                '&:hover': {
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 6
+                                }
+                            }}>
+                                <CardContent>
+                                    <Box display="flex" alignItems="center" mb={2}>
+                                        <Avatar sx={{bgcolor: theme.palette.primary.main, mr: 2}}>
+                                            {idea.user_id.username?.charAt(0) || 'U'}
+                                        </Avatar>
+                                        <Box>
+                                            <Typography variant="subtitle1" fontWeight="500">
+                                                {idea.user_id.username || 'Anonymous'}
+                                            </Typography>
+                                            <Typography variant="caption" color="text.secondary">
+                                                {new Date(idea.createdAt).toLocaleDateString()}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+
+                                    <Typography variant="h6" component="h2" gutterBottom sx={{fontWeight: 600}}>
+                                        {idea?.title}
                                     </Typography>
-                                    <Typography variant="caption" color="text.secondary">
-                                        {new Date(idea.createdAt).toLocaleDateString()}
+
+                                    <Typography variant="body1" color="text.secondary" paragraph>
+                                        {idea?.description}
                                     </Typography>
-                                </Box>
-                            </Box>
 
-                            <Typography variant="h6" component="h2" gutterBottom sx={{fontWeight: 600}}>
-                                {idea?.title}
-                            </Typography>
+                                    <Box sx={{display: 'flex', alignItems: 'center', mt: 2}}>
 
-                            <Typography variant="body1" color="text.secondary" paragraph>
-                                {idea?.description}
-                            </Typography>
+                                        <IconButton
+                                            onClick={() => handleVote(idea?._id, 'up')}
+                                            sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? theme.palette.success.main : 'gray'}}
+                                        >
+                                            <ThumbUpIcon/>
+                                        </IconButton>
+                                        <Typography variant="body2" sx={{mx: 1}}>
+                                            {idea.upvotes || 0}
+                                        </Typography>
 
-                            <Box sx={{display: 'flex', alignItems: 'center', mt: 2}}>
-
-                                <IconButton
-                                    onClick={() => handleVote(idea?._id, 'up')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'up') ? 'green' : 'gray'}}
-                                >
-                                    <ThumbUpIcon/>
-                                </IconButton>
-                                <Typography variant="body2" sx={{mx: 1}}>
-                                    {idea.upvotes || 0}
-                                </Typography>
-
-                                <IconButton
-                                    onClick={() => handleVote(idea?._id, 'down')}
-                                    sx={{color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? 'red' : 'gray', ml: 2}}
-                                >
-                                    <ThumbDownIcon/>
-                                </IconButton>
-                                <Typography variant="body2" sx={{mx: 1}}>
-                                    {idea.downvotes || 0}
-                                </Typography>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                ))}
+                                        <IconButton
+                                            onClick={() => handleVote(idea?._id, 'down')}
+                                            sx={{
+                                                color: idea?.votes?.some(vote => vote.user_id === localStorData?._id && vote.voteType === 'down') ? theme.palette.error.main : 'gray',
+                                                ml: 2
+                                            }}
+                                        >
+                                            <ThumbDownIcon/>
+                                        </IconButton>
+                                        <Typography variant="body2" sx={{mx: 1}}>
+                                            {idea.downvotes || 0}
+                                        </Typography>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </>
+                )}
             </Box>
             <Box display="flex" justifyContent="center" alignItems="center" mt={3} gap={2}>
                 <Button
